@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/pictures">
+        <file alias="flower.jpg">pictures/flower.jpg</file>
+        <file alias="mountain.jpg">pictures/mountain.jpg</file>
+        <file alias="sea.jpg">pictures/sea.jpg</file>
+        <file alias="sunset.jpg">pictures/sunset.jpg</file>
+    </qresource>
+    <qresource prefix="/image">
+        <file alias="open.png">Icon/open.png</file>
+    </qresource>
+</RCC>
