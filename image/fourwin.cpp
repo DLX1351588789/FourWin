@@ -23,7 +23,7 @@ FourWin::FourWin(QWidget *parent)
 	for(int i = 0;i < 4; i++)
 	{
 		scene[i] = new QGraphicsScene;
-		scene[i] -> setSceneRect(QRectF(0,0,1000,800));
+		//scene[i] -> setSceneRect(QRectF(0,0,1000,800));
 		view[i] = new QGraphicsView;
  	}
 
@@ -52,10 +52,13 @@ void FourWin::readImage(QDir director)
 	{
 		QString fileName = info.absoluteFilePath();
 		qDebug() << fileName << '\n';
-		QGraphicsPixmapItem *pixmap = new QGraphicsPixmapItem(QPixmap(fileName));
-		item.push_back(pixmap);	
+		QImage *image = new QImage;
+		image -> load(fileName);
+		item.push_back(*image);	
 	}	
 	it = item.begin();
+
+	
 }
 
 void FourWin::clearImage()
@@ -79,13 +82,16 @@ bool FourWin::eventFilter(QObject *watched, QEvent *event)
 				QMessageBox::about(this,tr("tip"),tr("you should select a folder"));
 				return false;
 			}
+	
 			if(it != item.end())
 			{
 				if(it == item.begin())
 				{
+										
 					for(int i = 0; i < 4 ;i ++)
 					{
-						scene[i] -> addItem(*it);	
+						scene[i] -> setSceneRect(QRectF(0,0,it->width(),it->height()));
+						scene[i] -> addPixmap(QPixmap::fromImage(*it));	
 					}
 					it ++;
 				}
@@ -93,8 +99,13 @@ bool FourWin::eventFilter(QObject *watched, QEvent *event)
 				{
 					for(int i = 0; i < 4 ;i ++)
 					{
-						scene[i] -> removeItem(*(it-1));
-						scene[i] -> addItem(*it);
+						scene[i] -> clear();
+					}
+					
+					for(int i = 0; i < 4 ;i ++)
+					{
+						scene[i] -> setSceneRect(QRectF(0,0,it->width(),it->height()));
+						scene[i] -> addPixmap(QPixmap::fromImage(*it));	
 					}
 					it ++;
 				}
@@ -103,7 +114,8 @@ bool FourWin::eventFilter(QObject *watched, QEvent *event)
 			{
 				for(int i = 0; i < 4 ;i ++)
 				{
-					scene[i] -> removeItem(*(it-1));
+					scene[i] -> clear();
+					scene[i] -> update();
 				}
 				it = item.begin();
 			}

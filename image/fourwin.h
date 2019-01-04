@@ -8,6 +8,8 @@
 #include <QDir>
 #include <QString>
 #include <QMessageBox>
+#include <QImage>
+#include <QLabel>
 
 class FourWin : public QWidget
 {
@@ -33,8 +35,8 @@ private:
 	bool fullScreen;
 	QDir dir;
 
-	QVector<QGraphicsPixmapItem*> item;
-	QVector<QGraphicsPixmapItem*>::Iterator it;
+	QVector<QImage> item;
+	QVector<QImage>::Iterator it;
 
 protected:
 	bool eventFilter(QObject *, QEvent *);
