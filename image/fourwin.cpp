@@ -73,82 +73,81 @@ void FourWin::clearImage()
 
 bool FourWin::eventFilter(QObject *watched, QEvent *event)
 {
-	if(watched==scene[0]  || watched==scene[1] || watched==scene[2] || watched==scene[3])
-    {
-		if(event->type() == QEvent::GraphicsSceneMousePress)
+	if(event->type() == QEvent::GraphicsSceneMouseDoubleClick && fullScreen == false)
+	{
+		for(int i = 0;i < 4; i++)
 		{
-			if(it == NULL)
-			{
-				QMessageBox::about(this,tr("tip"),tr("you should select a folder"));
-				return false;
-			}
-	
-			if(it != item.end())
-			{
-				if(it == item.begin())
-				{
-										
-					for(int i = 0; i < 4 ;i ++)
-					{
-						scene[i] -> setSceneRect(QRectF(0,0,it->width(),it->height()));
-						scene[i] -> addPixmap(QPixmap::fromImage(*it));	
-					}
-					it ++;
-				}
-				else
-				{
-					for(int i = 0; i < 4 ;i ++)
-					{
-						scene[i] -> clear();
-					}
-					
-					for(int i = 0; i < 4 ;i ++)
-					{
-						scene[i] -> setSceneRect(QRectF(0,0,it->width(),it->height()));
-						scene[i] -> addPixmap(QPixmap::fromImage(*it));	
-					}
-					it ++;
-				}
-			}
-			else 
-			{
-				for(int i = 0; i < 4 ;i ++)
-				{
-					scene[i] -> clear();
-					scene[i] -> update();
-				}
-				it = item.begin();
-			}
-			return true;
-		}
-		if(event->type() == QEvent::GraphicsSceneMouseDoubleClick && fullScreen == false)
-        {
-           qDebug() << "click to full" << '\n';
-			for(int i = 0;i < 4; i++)
-			{
-				if(scene[i] == watched)
-				{
-					view[i] -> show();
-					qDebug() << "click to full" << i << '\n';
-				}
-				else
-				{
-					view [i] -> hide();
-				}
-			}
-			fullScreen = true;
-			return true;
-        }
-		if(event->type() == QEvent::GraphicsSceneMouseDoubleClick && fullScreen == true)
-		{
-           qDebug() << "click to shrink" << '\n';
-			for(int i = 0; i < 4;i ++)
+			if(scene[i] == watched)
 			{
 				view[i] -> show();
+				qDebug() << "click" << i <<" window to full" << '\n';
 			}
-			fullScreen = false;
-			return true;
-		}      
-    }	
+			else
+			{
+				view [i] -> hide();
+			}
+		}
+		fullScreen = true;
+		return true;
+	}
+	else if(event->type() == QEvent::GraphicsSceneMouseDoubleClick && fullScreen == true)
+	{
+        qDebug() << "click to shrink" << '\n';
+		for(int i = 0; i < 4;i ++)
+		{
+			view[i] -> show();
+		}
+		fullScreen = false;
+		return true;
+	}
 	return true;
+	//if(watched==scene[0]  || watched==scene[1] || watched==scene[2] || watched==scene[3])
+ //   {
+	//	if(event->type() == QEvent::GraphicsSceneMousePress)
+	//	{
+
+	//		/*if(it == NULL)
+	//		{
+	//			QMessageBox::about(this,tr("tip"),tr("you should select a folder"));
+	//			return false;
+	//		}
+	//
+	//		if(it != item.end())
+	//		{
+	//			if(it == item.begin())
+	//			{
+	//									
+	//				for(int i = 0; i < 4 ;i ++)
+	//				{
+	//					scene[i] -> setSceneRect(QRectF(0,0,it->width(),it->height()));
+	//					scene[i] -> addPixmap(QPixmap::fromImage(*it));	
+	//				}
+	//				it ++;
+	//			}
+	//			else
+	//			{
+	//				for(int i = 0; i < 4 ;i ++)
+	//				{
+	//					scene[i] -> clear();
+	//				}
+	//				
+	//				for(int i = 0; i < 4 ;i ++)
+	//				{
+	//					scene[i] -> setSceneRect(QRectF(0,0,it->width(),it->height()));
+	//					scene[i] -> addPixmap(QPixmap::fromImage(*it));	
+	//				}
+	//				it ++;
+	//			}
+	//		}
+	//		else 
+	//		{
+	//			for(int i = 0; i < 4 ;i ++)
+	//			{
+	//				scene[i] -> clear();
+	//				scene[i] -> update();
+	//			}*/
+	//			it = item.begin();
+	//		}
+	//		return true;
+	//	}	
 }
